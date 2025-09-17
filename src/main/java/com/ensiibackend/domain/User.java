@@ -1,7 +1,6 @@
-package com.ensiibackend.models;
+package com.ensiibackend.domain;
 
 
-import com.ensiibackend.Role;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.*;

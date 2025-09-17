@@ -1,4 +1,4 @@
-package com.ensiibackend;
+package com.ensiibackend.domain;
 
 public enum Role {
     ADMIN,

@@ -1,4 +1,4 @@
-package com.ensiibackend.models;
+package com.ensiibackend.domain;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
@@ -36,16 +36,15 @@ public class TourPackage {
     @Column(nullable=false)
     private Integer days;
 
-    @NotBlank
     @Column(name="created_at", nullable =false)
     private OffsetDateTime createdAt;
 
-    @NotBlank
     @Column(name="updated_at", nullable =false)
     private OffsetDateTime updatedAt;
 
     @Builder.Default
     @OneToMany(mappedBy="tourPackage", fetch= FetchType.LAZY, cascade=CascadeType.ALL, orphanRemoval =true)
+    @OrderBy("dayNumber ASC")
     private List<ItineraryItem> itineraryItems = new ArrayList<>();
 
     @PrePersist void onCreate(){createdAt = updatedAt = OffsetDateTime.now();}

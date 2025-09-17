@@ -1,4 +1,4 @@
-package com.ensiibackend.models;
+package com.ensiibackend.domain;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
@@ -29,7 +29,6 @@ public class PasswordResetToken {
     @JoinColumn(name="user_id", nullable=false)
     private User userId;
 
-    @NotBlank
     @Column(name="expires_at", nullable=false)
     private OffsetDateTime expiresAt;
 

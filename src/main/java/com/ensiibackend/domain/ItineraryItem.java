@@ -1,8 +1,7 @@
-package com.ensiibackend.models;
+package com.ensiibackend.domain;
 
 import jakarta.persistence.*;
 
-import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.*;
 
@@ -47,11 +46,9 @@ public class ItineraryItem {
     @Column(name ="end_location", length=160)
     private String endLocation;
 
-    @NotBlank
     @Column(name="created_at", nullable=false)
     private OffsetDateTime createdAt;
 
-    @NotBlank
     @Column(name="updated_at", nullable=false)
     private OffsetDateTime updatedAt;
 

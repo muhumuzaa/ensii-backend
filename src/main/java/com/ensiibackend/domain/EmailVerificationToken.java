@@ -1,4 +1,4 @@
-package com.ensiibackend.models;
+package com.ensiibackend.domain;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
@@ -25,7 +25,6 @@ public class EmailVerificationToken {
     @JoinColumn(name="user_id", nullable=false)
     private User user;
 
-    @NotBlank
     @Column(name="expires_at", nullable=false)
     private OffsetDateTime expiresAt;
 
