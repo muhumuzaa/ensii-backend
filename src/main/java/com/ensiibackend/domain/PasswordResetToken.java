@@ -27,7 +27,7 @@ public class PasswordResetToken {
     @NotBlank
     @ManyToOne(fetch=FetchType.LAZY, optional=false)
     @JoinColumn(name="user_id", nullable=false)
-    private User userId;
+    private UserAccount userAccountId;
 
     @Column(name="expires_at", nullable=false)
     private OffsetDateTime expiresAt;

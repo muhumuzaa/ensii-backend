@@ -50,7 +50,7 @@ public class BlogPost {
 
     @ManyToOne(fetch =FetchType.LAZY)
     @JoinColumn(name="author_user_id")
-    private User author;
+    private UserAccount author;
 
     @Builder.Default
     @OneToMany(mappedBy="post")

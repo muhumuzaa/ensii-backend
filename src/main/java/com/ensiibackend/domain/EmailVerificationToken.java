@@ -23,7 +23,7 @@ public class EmailVerificationToken {
 
     @ManyToOne(fetch=FetchType.LAZY, optional=false)
     @JoinColumn(name="user_id", nullable=false)
-    private User user;
+    private UserAccount userAccount;
 
     @Column(name="expires_at", nullable=false)
     private OffsetDateTime expiresAt;

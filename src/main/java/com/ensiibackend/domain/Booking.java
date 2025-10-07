@@ -23,7 +23,7 @@ public class Booking {
 
     @ManyToOne(fetch = FetchType.LAZY, optional=false, cascade = CascadeType.ALL)
     @Column(name="user_id", nullable =false)
-    private User user;
+    private UserAccount userAccount;
 
     @Enumerated(EnumType.STRING)
     @Column(name="status", nullable=false, length =24)

@@ -8,7 +8,7 @@ import java.time.OffsetDateTime;
 
 @Entity
 @Table(name="user_favorite", uniqueConstraints = {
-//        @UniqueConstraint(name="uq_post_image_order", columnNames ={"blog_id", "sort_order"})
+        @UniqueConstraint(name="uq_user_favorite", columnNames ={"user_id", "tour_package_id"})
 })
 @Setter
 @Getter
@@ -18,15 +18,22 @@ import java.time.OffsetDateTime;
 public class UserFavorite {
 
     @Id
-    @OneToOne( fetch=FetchType.LAZY, optional =false)
-    @JoinColumn(name="user_id", nullable=false)
-    private User user;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    Long id;
 
-    private TourPackage package;
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "user_id", nullable = false)
+    private UserAccount userAccount;
 
-    @Column(name="created-at", nullable=false)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "tour_pacakge_id", nullable = false)
+    private TourPackage tourPackage;
+
+    @Column(name = "created_at", nullable = false)
     private OffsetDateTime createdAt;
 
-    @PrePersist void onCreate(){ if (createdAt == null) createdAt = OffsetDateTime.now(); }
-
+    @PrePersist
+    void onCreate() {
+        if (createdAt == null) createdAt = OffsetDateTime.now();
+    }
 }
