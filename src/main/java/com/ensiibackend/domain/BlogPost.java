@@ -18,8 +18,8 @@ public class BlogPost {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank @Size(max=160)
-    @Column(nullable=false, unique=true, length =160)
+    @NotBlank @Size(max=128)
+    @Column(nullable=false, unique=true, length =128)
     private String slug;
 
     @NotBlank @Size(max=128)
