@@ -8,7 +8,7 @@ import java.util.List;
 
 public class PackageDTO {
 
-    public record createTourPackageDTO(
+    public record CreateTourPackageDTO(
             @NotBlank @Size(max=128) String slug,
             @NotBlank @Size(max=128) String title,
             String summary,
@@ -17,6 +17,14 @@ public class PackageDTO {
             List<@Valid CreateItineraryItemDTO> itinerary
             ){}
 
+    public record UpdateTourPackageDTO(
+            @NotBlank @Size(max=128) String slug,
+            @NotBlank @Size(max=128) String title,
+            String summary,
+            @NotBlank @Min(0) Integer priceCents,
+            @NotBlank @Min(1) Integer days,
+            List<@Valid CreateItineraryItemDTO> itinerary
+    ){}
 
     public record TourPackageResponseDTO(
             Long id,
