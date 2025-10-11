@@ -4,8 +4,7 @@ import com.ensiibackend.domain.TourPackage;
 import com.ensiibackend.domain.UserFavorite;
 import com.ensiibackend.repos.TourPackageRepository;
 import com.ensiibackend.repos.UserFavoriteRepository;
-import com.ensiibackend.repos.UserRepository;
-import lombok.NoArgsConstructor;
+import com.ensiibackend.repos.UserAccountRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,7 +19,7 @@ public class UserFavoriteService {
 
     private final UserFavoriteRepository favRepo;
     private final TourPackageRepository pkgRepo;
-    private final UserRepository userRepo;
+    private final UserAccountRepository userRepo;
 
     @Transactional
     public void addFavorite(Long userId, String packageSlug){

@@ -25,7 +25,7 @@ public class BlogImage {
 
     @ManyToOne(fetch =FetchType.LAZY, optional=false)
     @JoinColumn(name="blog_id", nullable =false)
-    private BlogPost post;
+    private BlogPost blogPost;
 
     @Column(name ="image_url", nullable=false, length=512)
     @NotBlank @Size(max=512)
@@ -33,13 +33,13 @@ public class BlogImage {
 
     @Column(name ="alt_text", length=160)
     @NotBlank @Size(max=160)
-    private String AltText;
+    private String altText;
 
     @Column(columnDefinition ="text")
     private String caption;
 
     @Column(name="sort_order", nullable=false)
-    private Integer SortOrder =0;
+    private Integer sortOrder =0;
 
     @Column(name="created_at", nullable =false)
     private OffsetDateTime createdAt;

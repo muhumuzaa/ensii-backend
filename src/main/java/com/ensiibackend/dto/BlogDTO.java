@@ -17,13 +17,24 @@ public class BlogDTO {
             BlogPostStatus status,
             @Size(max=512) String coverImageUrl,
             @Size(max=160) String coverImageAlt,
-            UserAccount author,
+            UserAccount authorUserId,
+            List<BlogImageDTO> blogImages
+    ){}
+
+    public record UpdateBlogPostDTO(
+            @NotBlank @Size(max=128) String title,
+            String excerpt,
+            @NotBlank String content,
+            BlogPostStatus status,
+            @Size(max=512) String coverImageUrl,
+            @Size(max=160) String coverImageAlt,
+            UserAccount authorUserId,
             List<BlogImageDTO> blogImages
     ){}
 
     public record BlogImageDTO(
-            String imageUrl,
-            String altText,
+            @NotBlank @Size(max=512) String imageUrl,
+            @NotBlank @Size(max=160) String altText,
             String caption,
             Integer sortOrder
     ){}
