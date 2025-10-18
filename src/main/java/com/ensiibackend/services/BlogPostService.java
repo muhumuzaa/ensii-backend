@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.OffsetDateTime;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -51,6 +52,11 @@ public class BlogPostService {
     @Transactional(readOnly = true)
     public Page<BlogPost> listPublished(Pageable pageable){
         return blogRepo.findByStatusOrderByPublishedAtDesc(BlogPostStatus.PUBLISHED, pageable);
+    }
+
+    @Transactional(readOnly = true)
+    public Optional<BlogPost> getBySlug(String slug){
+        return blogRepo.findBySlug(slug);
     }
 
     @Transactional
