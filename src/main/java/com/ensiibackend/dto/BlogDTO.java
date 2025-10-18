@@ -5,6 +5,7 @@ import com.ensiibackend.domain.UserAccount;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
+import java.time.OffsetDateTime;
 import java.util.List;
 
 public class BlogDTO {
@@ -19,6 +20,22 @@ public class BlogDTO {
             @Size(max=160) String coverImageAlt,
             UserAccount authorUserId,
             List<BlogImageDTO> blogImages
+    ){}
+
+    public record BlogPostResponseDTO(
+//            Long id,
+            String slug,
+            String title,
+            String excerpt,
+            String content,
+            BlogPostStatus status,
+            String coverImageUrl,
+            String coverImageAlt,
+            String authorName,
+            List<BlogImageResponseDTO> images,
+            OffsetDateTime publishedAt,
+            OffsetDateTime createdAt,
+            OffsetDateTime updatedAt
     ){}
 
     public record UpdateBlogPostDTO(
@@ -38,4 +55,11 @@ public class BlogDTO {
             String caption,
             Integer sortOrder
     ){}
+
+    public record BlogImageResponseDTO(
+            String imageUrl,
+            String altText,
+            String caption,
+            Integer sortOrder
+    ) {}
 }

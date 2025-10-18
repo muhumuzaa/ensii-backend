@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.OffsetDateTime;
+import java.util.Comparator;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
@@ -25,7 +26,7 @@ public class BlogPostService {
     private final UserAccountRepository userRepo;
 
     @Transactional
-    public BlogPost create(CreateBlogPostDTO dto){
+    public BlogPostResponseDTO create(CreateBlogPostDTO dto){
 
         String slug = SlugifyUtils.slugify(dto.title());
         if (blogRepo.findBySlug(slug).isPresent()) {
@@ -45,22 +46,26 @@ public class BlogPostService {
         if(post.getStatus() == BlogPostStatus.PUBLISHED && post.getPublishedAt() == null){
             post.setPublishedAt(OffsetDateTime.now());
         }
-        return blogRepo.save(post);
+        BlogPost created = blogRepo.save(post);
+        return toResponse(created);
     }
 
 
     @Transactional(readOnly = true)
-    public Page<BlogPost> listPublished(Pageable pageable){
-        return blogRepo.findByStatusOrderByPublishedAtDesc(BlogPostStatus.PUBLISHED, pageable);
+    public Page<BlogPostResponseDTO> listPublished(Pageable pageable){
+        return blogRepo.findByStatusOrderByPublishedAtDesc(BlogPostStatus.PUBLISHED, pageable)
+                .map(this::toResponse);
     }
 
     @Transactional(readOnly = true)
-    public Optional<BlogPost> getBySlug(String slug){
-        return blogRepo.findBySlug(slug);
+    public Optional<BlogPostResponseDTO> getBySlug(String slug){
+
+        return Optional.ofNullable(blogRepo.findBySlug(slug)
+                .map(this::toResponse).orElseThrow(() -> new NoSuchElementException("Blog not found")));
     }
 
     @Transactional
-    public BlogPost update(String slug, UpdateBlogPostDTO dto) {
+    public BlogPostResponseDTO update(String slug, UpdateBlogPostDTO dto) {
         BlogPost post = blogRepo.findBySlug(slug)
                 .orElseThrow(() -> new NoSuchElementException("Blog not found"));
 
@@ -94,7 +99,41 @@ public class BlogPostService {
             }
         }
 
-        return post;
+        return toResponse(post);
     }
 
+    public void delete(String slug) {
+        BlogPost toDelete = blogRepo.findBySlug(slug)
+                .orElseThrow(() -> new NoSuchElementException("This blog post you want to delete does not exist"));
+        blogRepo.delete(toDelete);
+    }
+
+
+    //-------------------Response Mapper Helper -----------------------------------------
+    public BlogPostResponseDTO toResponse(BlogPost post){
+        var images = post.getBlogImages().stream()
+                .sorted(Comparator.comparing(BlogImage::getSortOrder))
+                .map(img -> new BlogImageResponseDTO(
+                        img.getImageUrl(),
+                        img.getAltText(),
+                        img.getCaption(),
+                        img.getSortOrder()
+                )).toList();
+
+        return new BlogPostResponseDTO(
+//                post.getId(),
+                post.getSlug(),
+                post.getTitle(),
+                post.getExcerpt(),
+                post.getContent(),
+                post.getStatus(),
+                post.getCoverImageUrl(),
+                post.getCoverImageAlt(),
+                post.getAuthor() != null? post.getAuthor().getFirstName() +" "+post.getAuthor().getLastName(): null,
+                images,
+                post.getPublishedAt(),
+                post.getCreatedAt(),
+                post.getUpdatedAt()
+        );
+    }
 }
